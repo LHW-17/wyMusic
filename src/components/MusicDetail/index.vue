@@ -1,5 +1,5 @@
 <template>
-    <img :src="musicList.al.picUrl" class="bgImg">
+    <img v-lazy="musicList.al.picUrl" class="bgImg">
     <div class="detail-top">
         <div class="detail-top-left">
             <svg class="icon" aria-hidden="true" @click="back">
@@ -23,12 +23,12 @@
     <div class="detail-content" v-show="!showLyric">
         <img src="@/assets/needle-ab.png" class="img-needle" :class="{ img_needle_active: playing }">
         <img src="@/assets/disc-plus.png" class="img-disc">
-        <img :src="musicList.al.picUrl" class="picImg" :class="{ picImg_pause: !playing, picImg_active: playing }"
+        <img v-lazy="musicList.al.picUrl" class="picImg" :class="{ picImg_pause: !playing, picImg_active: playing }"
             @click="showLyric = true">
     </div>
     <div class="lyric" ref="musicLyric" v-show="showLyric" @click="showLyric = false">
-        <p v-for="item, index in lyricList" :key="index"
-            :class="{ active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.pre) }">{{ item.lrc }}</p>
+        <p v-for="item, index in lyricList" :key="index" :class="{ active: (currentTime * 1000 >= item.time && currentTime * 1000 < item.pre)
+        }">{{ item.lrc }}</p>
     </div>
     <div class="detail-foot">
         <div class="footer-top">
@@ -77,7 +77,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, ref, computed, watch, onMounted } from 'vue'
+import { reactive, ref, computed, watch, onUpdated } from 'vue'
 import { useStore } from "vuex"
 import { Vue3Marquee } from "vue3-marquee"
 import "vue3-marquee/dist/style.css"
@@ -125,12 +125,31 @@ watch(currentTime, () => {
     if (showLyric.value) {
         let p: HTMLElement = document.querySelector("p.active") as HTMLElement;
         //299
+        // console.log([p]);
+        
         if (p?.offsetTop > 299) {
-            musicLyric.value.scrollTop = p.offsetTop - 300;
+            musicLyric.value.scrollTop = p?.offsetTop - 300;
+        }else if(p == null && lyricList&&currentTime.value > lyricList.value[0].time ){
+            musicLyric.value.scrollTop = musicLyric.value.scrollHeight
+        }else if(p?.offsetTop <= 299 || p==null){
+            musicLyric.value.scrollTop = 0
         }
     }
 })
-
+//生命周期
+// onUpdated(()=>{
+//     if (showLyric.value) {
+//         let p: HTMLElement = document.querySelector("p.active") as HTMLElement;
+//         //299
+//         console.log([musicLyric.value]);
+        
+//         if (p?.offsetTop > 299) {
+//             musicLyric.value.scrollTop = p?.offsetTop - 300;
+//         }else if(p?.offsetTop <= 299){
+//             musicLyric.value.scrollTop = 0
+//         }
+//     }
+// })
 //method
 //为解决拖拽过程中timeupdate触发更新导致的跳动
 const draging = () => {
@@ -187,10 +206,11 @@ const changeMusic = (value: number) => {
         justify-content: flex-start;
         align-items: center;
 
+
         .icon {
-            width: .6rem;
-            height: .6rem;
-            margin: 0 .4rem;
+            width: .85rem;
+            height: .85rem;
+            margin: 0 .2rem;
         }
 
         div {
@@ -198,7 +218,7 @@ const changeMusic = (value: number) => {
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-
+            overflow: hidden;
 
             p {
                 color: #fff;
@@ -311,9 +331,11 @@ const changeMusic = (value: number) => {
         color: #ccc;
         font-size: .32rem;
         margin-top: .4rem;
-        width: 100%;
+        width: 90%;
         text-align: center;
         transition: all .5s linear;
+        word-wrap: break-word;
+        mix-blend-mode: difference;
     }
 
     .active {

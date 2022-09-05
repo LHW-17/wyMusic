@@ -2,7 +2,7 @@
     <!-- vue3页面 -->
     <div>
         <div class="top">
-            <img :src="playList?.coverImgUrl" class="bgImg">
+            <img v-lazy="playList?.coverImgUrl" class="bgImg">
             <div class="top-left">
                 <svg class="icon" aria-hidden="true" @click="goBack">
                     <use xlink:href="#icon-jiantou_xiangzuo"></use>
@@ -20,7 +20,7 @@
         </div>
         <div class="middle">
             <div class="middle-left">
-                <img :src="playList?.coverImgUrl" alt="" class="coverImg">
+                <img v-lazy="playList?.coverImgUrl" alt="" class="coverImg">
                 <div class="playCount">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-bofang"></use>
@@ -31,7 +31,7 @@
             <div class="middle-content">
                 <div class="title">{{ playList?.name }}</div>
                 <div class="author">
-                    <img :src="playList.creator?.avatarUrl" class="author-img">
+                    <img v-lazy="playList.creator?.avatarUrl" class="author-img">
                     <span>{{ playList.creator?.nickname }}&nbsp;&gt;</span>
                 </div>
                 <div class="signature">{{ playList.creator?.signature }}</div>
@@ -103,6 +103,7 @@ const goBack = () => {
     // padding: .2rem;
     position: relative;
 
+
     .bgImg {
         width: 100%;
         height: 8rem;
@@ -127,6 +128,9 @@ const goBack = () => {
 
         .icon {
             fill: #fff;
+            mix-blend-mode: difference;
+            width: .4rem;
+            height: .4rem;
         }
     }
 }

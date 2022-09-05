@@ -4,13 +4,17 @@
 
 import Home from "./views/Home.vue";
 import FooterMusic from "./components/ItemMusic/FooterMusic.vue";
+import { useStore } from "vuex";
+import { onBeforeMount } from "vue";
+
+const store = useStore()
 </script>
 
 <template>
 
   <router-view>
   </router-view>
-  <FooterMusic />
+  <FooterMusic v-show="store.state.showFooter" />
 
 </template>
 

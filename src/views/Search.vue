@@ -8,22 +8,26 @@
     <div class="searchHistory">
         <span>历史</span>
         <span class="keyword" v-for="item, index in keywordList" :key="index" @click="searchHistory(item, index)">{{
-                item
+        item
         }}
         </span>
         <svg class="icon" aria-hidden="true" @click="deleteHistory">
             <use xlink:href="#icon-shanchu1"></use>
         </svg>
     </div>
+    <ItemList :list="resMusicList" :playMusic="playMusic"></ItemList>
 </template>
 
 <script lang='ts' setup>
 import { onMounted, reactive, ref, Ref } from 'vue'
+import {useStore} from "vuex"
 import API from "@/api"
+import ItemList from '@/components/ItemList.vue';
 //data
 const keywordList: Ref<string[]> = ref([])
 const keyword = ref("")
 const resMusicList = ref({})
+const store = useStore()
 //method
 //搜索框回车事件
 const enterKeyword = async () => {
@@ -40,7 +44,7 @@ const enterKeyword = async () => {
         localStorage.setItem("keywordHistory", JSON.stringify(keywordList.value))
         //发请求获取歌曲列表
         let res = await API.home.reqSearch(keyword.value)
-        console.log(res);
+        // console.log(res);
         if (res.code == 200) {
             resMusicList.value = res.result.songs;
         }
@@ -63,6 +67,15 @@ const searchHistory = async (item: string, index: number) => {
 const deleteHistory = () => {
     keywordList.value.length = 0;
     localStorage.removeItem("keywordHistory")
+}
+//传给列表组件的方法
+const playMusic = (index:number,item:any)=>{
+    // console.log(item);
+    item.al = item.album;
+    item.al.picUrl = item.album.artist.img1v1Url;
+    store.commit("pushPlayList", item)
+    store.commit("updatePlayListIndex", store.state.playList.length-1)
+    store.commit("playOrPause", true)
 }
 
 //生命周期

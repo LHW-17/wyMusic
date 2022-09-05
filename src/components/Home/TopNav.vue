@@ -6,7 +6,7 @@
             </svg>
         </div>
         <div class="topContent">
-            <span>我的</span>
+            <span @click="goUser">我的</span>
             <span class="active">发现</span>
             <span>云村</span>
             <span>视频</span>
@@ -19,6 +19,11 @@
     </div>
 </template>
 <script setup lang="ts">
+    import { useRouter } from 'vue-router';
+    const router = useRouter()
+    const goUser = ()=>{
+        router.push("/userinfo")
+    }
 </script>
 <style lang="less" scoped>
 .topNav {

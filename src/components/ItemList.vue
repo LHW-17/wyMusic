@@ -1,19 +1,19 @@
 <template>
     <div class="itemList">
-        <div class="item" v-for="(item, index) in playList.tracks" :key="item.id">
-            <div class="itemLeft" @click="playMusic(index)">
+        <div class="item" v-for="(item, index) in list" :key="item.id">
+            <div class="itemLeft" @click="playMusic(index,item)">
                 <span class="leftSpan">{{ index + 1 }}</span>
                 <div>
                     <p>{{ item.name }}</p>
                     <div>
-                        <span v-for="(item2) in item.ar" :key="item2.id">
+                        <span v-for="(item2) in item.ar||item.artists" :key="item2.id">
                             {{ item2.name }}
                         </span>
                     </div>
                 </div>
             </div>
             <div class="itemRight">
-                <svg class="icon" aria-hidden="true" v-if="item.mv">
+                <svg class="icon" aria-hidden="true" v-if="item.mvid">
                     <use xlink:href="#icon-24gl-playSquare"></use>
                 </svg>
                 <svg class="icon" aria-hidden="true">
@@ -27,6 +27,9 @@
 
 <script lang='ts' setup>
 import { reactive, ref } from 'vue'
+import { useStore } from "vuex"
+const props = defineProps(["list","playMusic"])
+const store = useStore()
 </script>
 
 <style scoped lang="less">

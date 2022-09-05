@@ -1,7 +1,7 @@
 <template>
     <div class="footerMusic">
         <div class="footerLeft">
-            <img :src="playList[playListIndex]?.al.picUrl" @click="updateShow">
+            <img v-lazy="playList[playListIndex]?.al.picUrl" @click="updateShow">
             <div>
                 <p>{{ playList[playListIndex].name }}</p>
                 <span>横滑切换上下首哦</span>
@@ -26,9 +26,7 @@
         }">
             <MusicDetail :musicList="playList[playListIndex]" :play="play" :pause="pause" />
         </van-popup>
-
     </div>
-
 </template>
 
 <script lang='ts' setup>

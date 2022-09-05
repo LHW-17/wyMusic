@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-
+import { store } from "@/store";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -16,6 +16,30 @@ const routes: Array<RouteRecordRaw> = [
     name: "search",
     component: () => import("@/views/Search.vue"),
   },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("@/views/Login.vue"),
+    beforeEnter(to, from, next) {
+      if (store.getters.isLogin) {
+        next("/userinfo");
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: "/userinfo",
+    name: "userInfo",
+    beforeEnter(to, from, next) {
+      if (store.getters.isLogin) {
+        next();
+      } else {
+        next("/login");
+      }
+    },
+    component: () => import("@/views/UserInfo.vue"),
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),
@@ -25,5 +49,13 @@ const router = createRouter({
     };
   },
   routes: routes,
+});
+router.beforeEach((to, from, next) => {
+  if (to.path == "/login") {
+    store.commit("updateShowFooter", false);
+  } else {
+    store.commit("updateShowFooter", true);
+  }
+  next();
 });
 export default router;

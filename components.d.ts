@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Card: typeof import('./src/components/Card.vue')['default']
     FooterMusic: typeof import('./src/components/ItemMusic/FooterMusic.vue')['default']
     IconList: typeof import('./src/components/Home/IconList.vue')['default']
     ItemList: typeof import('./src/components/ItemList.vue')['default']
@@ -22,5 +23,6 @@ declare module '@vue/runtime-core' {
     VanPopup: typeof import('vant/es')['Popup']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
+    VantButton: typeof import('vant/es')['tButton']
   }
 }

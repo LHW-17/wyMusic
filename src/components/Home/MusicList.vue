@@ -7,7 +7,7 @@
         <div class="list">
             <van-swipe :loop="false" :width="150" class="swiper" :show-indicators="false">
                 <van-swipe-item v-for="item in musicList" :key="item.id" @click="goItemMusic(item.id)">
-                    <img :src="item.picUrl" alt="">
+                    <img v-lazy="item.picUrl" alt="">
                     <span class="playCount">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-bofang"></use>
@@ -16,7 +16,6 @@
                     </span>
                     <span class="name">{{ item.name }}</span>
                 </van-swipe-item>
-
             </van-swipe>
         </div>
     </div>
@@ -26,14 +25,7 @@
 import { defineComponent, reactive, ref, computed, onMounted } from 'vue'
 import API from "@/api"
 import { useRouter, useRoute } from "vue-router"
-// type musicListType = [
-//     {
-//         name: string,
-//         id: number,
-//         playCount: number,
-//         picUrl: string
-//     }
-// ]
+
 const router = useRouter();
 const route = useRoute();
 const goItemMusic = (id: number) => {
