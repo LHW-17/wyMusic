@@ -118,9 +118,10 @@ export const store = createStore({
     //获取歌单详情以更新播放列表
     async getUserMusicListDetail(context, value) {
       let res = await API.user.reqUserMusicListDetail(value);
-      // console.log(res);
+      console.log(res);
       if (res.code == 200) {
         context.commit("updatePlayList", res.playlist.tracks);
+        context.commit("updatePlayListIndex", 0);
       }
     },
   },

@@ -36,7 +36,13 @@ const goItemMusic = (id: number) => {
         }
     })
 }
-const musicList: any = ref([]);
+const musicList = ref<{
+    id: number,
+    picUrl: string,
+    playCount: number,
+    name: string,
+}[]>([]);
+
 const changeCount = (num: number) => {
     if (num >= 100000000) {
         return (num / 100000000).toFixed(1) + "亿"

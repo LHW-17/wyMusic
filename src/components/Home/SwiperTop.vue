@@ -11,7 +11,7 @@
 import { onMounted, ref } from 'vue';
 import API from "@/api/index"
 
-const images: any = ref([])
+const images = ref<{ pic: string, targetId: number }[]>([])
 onMounted(async () => {
     const res = await API.home.reqSwipeImg()
     if (res.code == 200) {

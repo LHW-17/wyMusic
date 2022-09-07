@@ -123,7 +123,7 @@ onUpdated(() => {
 
     .footerLeft {
         height: 100%;
-        width: 4rem;
+        width: 6rem;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -139,6 +139,13 @@ onUpdated(() => {
         div {
             font-size: .3rem;
             font-weight: bold;
+
+            p {
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: start;
+            }
 
             span {
                 font-size: .24rem;
